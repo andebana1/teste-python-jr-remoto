@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, mixins, status
 from rest_framework.views import Response
 
 from api import models, serializers
@@ -11,9 +11,14 @@ from api.integrations.github import GithubApi
 # 4 - Retornar os dados de organizações ordenados pelo score na listagem da API
 
 
-class OrganizationViewSet(GithubApi, viewsets.ModelViewSet):
+class OrganizationViewSet(
+    GithubApi,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet):
 
-    queryset = models.Organization.objects.all()
+    queryset = models.Organization.objects.all().order_by('score')
     serializer_class = serializers.OrganizationSerializer
     lookup_field = "login"
 
@@ -24,16 +29,8 @@ class OrganizationViewSet(GithubApi, viewsets.ModelViewSet):
         result = self.get_organization(login)
         if result is None:
             return self.notfound_status()
+        result['score'] = self.get_organization_public_members(login)
         serializer = self.get_serializer(data=result, many=False)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
-    
-    def create(self, request, *args, **kwars):
-        return self.notfound_status()
-    
-    def update(self, request, *args, **kwars):
-        return self.notfound_status()
-
-    def partial_update(self, request, *args, **kwars):
-        return self.notfound_status()
