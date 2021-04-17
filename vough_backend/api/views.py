@@ -26,6 +26,9 @@ class OrganizationViewSet(
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     def retrieve(self, request, login=None):
+        """
+            Busca os dados de uma org através do login informado
+        """
         result = self.get_organization(login)
         if result is None:
             return self.notfound_status()

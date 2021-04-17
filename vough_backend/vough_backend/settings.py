@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_spectacular",
     "api",
 ]
 
@@ -77,6 +78,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # Database
@@ -108,6 +110,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+TITLE = 'Orgs Cache'
+VERSION = '0.0.1-dev'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
