@@ -111,7 +111,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 TITLE = 'Orgs Cache'
-VERSION = '0.0.1-dev'
+VERSION = '0.0.1'
+
+# https://drf-spectacular.readthedocs.io/en/latest/settings.html#django-rest-framework-settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': TITLE,
+    'VERSION': VERSION,
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

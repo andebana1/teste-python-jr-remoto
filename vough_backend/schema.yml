@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: ''
-  version: 0.0.0
+  title: Orgs Cache
+  version: 0.0.1
 paths:
   /api/orgs/:
     get:
@@ -218,6 +218,7 @@ components:
           maxLength: 255
         name:
           type: string
+          nullable: true
           maxLength: 255
         score:
           type: integer

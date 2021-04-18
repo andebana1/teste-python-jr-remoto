@@ -12,13 +12,13 @@ from api.integrations.github import GithubApi
 
 
 class OrganizationViewSet(
-    GithubApi,
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet):
+        GithubApi,
+        mixins.RetrieveModelMixin,
+        mixins.ListModelMixin,
+        mixins.DestroyModelMixin,
+        viewsets.GenericViewSet):
 
-    queryset = models.Organization.objects.all().order_by('score')
+    queryset = models.Organization.objects.all().order_by('-score')
     serializer_class = serializers.OrganizationSerializer
     lookup_field = "login"
 
@@ -32,8 +32,13 @@ class OrganizationViewSet(
         result = self.get_organization(login)
         if result is None:
             return self.notfound_status()
-        result['score'] = self.get_organization_public_members(login)
-        serializer = self.get_serializer(data=result, many=False)
+        pub_org_members = self.get_organization_public_members(login)
+        obj = {
+            "login": result['login'],
+            "name": result.get('name', None),
+            "score": pub_org_members + result.get('public_repos', 0)
+        }
+        serializer = self.get_serializer(data=obj, many=False)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)

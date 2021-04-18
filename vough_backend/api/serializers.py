@@ -2,8 +2,11 @@ from rest_framework import serializers
 
 from api import models
 
+
 class OrganizationSerializer(serializers.ModelSerializer):
     login = serializers.CharField(max_length=255)
+    name = serializers.CharField(max_length=255, allow_null=True)
+
     class Meta:
         model = models.Organization
         fields = "__all__"
