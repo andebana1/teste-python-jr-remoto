@@ -26,7 +26,7 @@ class GithubApi:
                 return None
             else:
                 repo = repo.json()
-            
+
             return repo
         except requests.exceptions.ConnectionError:
             return None
