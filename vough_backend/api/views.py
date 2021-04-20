@@ -35,7 +35,8 @@ class OrganizationViewSet(
             return self.notfound_status()
         pub_org_members = self.get_organization_public_members(login)
         obj = {
-            **result,
+            "login": result['login'],
+            "name": result.get('name', None),
             "score": pub_org_members + result.get('public_repos', 0)
         }
         serializer = self.get_serializer(data=obj, many=False)
