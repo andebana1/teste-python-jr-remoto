@@ -39,16 +39,31 @@ class GithubApi:
         headers = {
             "Authorization": "Token {}".format(self.GITHUB_TOKEN)
         }
+        params = {
+            "per_page": 100,
+            "page": 0
+        }
+        pub_org_members = 0
 
         url = f'{self.API_URL}/orgs/{login}/public_members'
 
-        try:
-            pub_org_members = requests.get(url, headers=headers)
+        condition = True
+        while condition:
 
-            return 0 if pub_org_members.status_code != 200 \
-                else len(pub_org_members.json())
-        except requests.exceptions.ConnectionError:
-            return 0
+            try:
+                params['page'] += 1
+                response = requests.get(url, headers=headers, params=params)
+                array_len = len(response.json())
+                if array_len == 0:
+                    condition = False
+                    break
+                pub_org_members += array_len
+            except requests.exceptions.ConnectionError:
+                params['page'] -= 1  # Repete a requisição que falhou
+            except requests.ConnectionAbortedError:
+                params['page'] -= 1
+
+        return pub_org_members
 
     def get_ramdom_orgs(self):  # for tests
         """

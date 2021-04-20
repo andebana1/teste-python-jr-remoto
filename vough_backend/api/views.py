@@ -1,7 +1,7 @@
 from rest_framework import viewsets, mixins, status
 from rest_framework.views import Response
 
-from api import models, serializers
+from api import models, serializers, filters
 from api.integrations.github import GithubApi
 
 # TODOS:
@@ -20,6 +20,7 @@ class OrganizationViewSet(
 
     queryset = models.Organization.objects.all().order_by('-score')
     serializer_class = serializers.OrganizationSerializer
+    filter_class = filters.OrganizationFilter
     lookup_field = "login"
 
     def notfound_status(self):
@@ -34,8 +35,7 @@ class OrganizationViewSet(
             return self.notfound_status()
         pub_org_members = self.get_organization_public_members(login)
         obj = {
-            "login": result['login'],
-            "name": result.get('name', None),
+            **result,
             "score": pub_org_members + result.get('public_repos', 0)
         }
         serializer = self.get_serializer(data=obj, many=False)
