@@ -74,7 +74,7 @@ DELETE /api/orgs/<login>/
 Em caso de sucesso, o status `204` deverá ser retornado.
 Caso a empresa não seja encontrada, deve retornar o status `404`.
 
-## Instruões de uso
+## Instruções de uso
 
 O projeto foi desenvolvido utilizando o [Pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today) como o gerenciador de dependências. Depois de instalado, siga os seguintes passos:
 - Clone o projeto para o seu computados
