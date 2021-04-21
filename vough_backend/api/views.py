@@ -43,3 +43,15 @@ class OrganizationViewSet(
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+    def list(self, request, *args, **kwargs):
+        """
+            Listagem de todas as organizações que estão no cache
+        """
+        return super(OrganizationViewSet, self).list(request, args, kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+            Remove uma organização da listagem
+        """
+        return super(OrganizationViewSet, self).destroy(request, args, kwargs)

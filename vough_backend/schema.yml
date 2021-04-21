@@ -6,7 +6,28 @@ paths:
   /api/orgs/:
     get:
       operationId: api_orgs_list
-      description: ''
+      description: Função para a listagem de todas as organizações que estão no cache
+      parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Buscar uma orgs por login
+      - in: query
+        name: score
+        schema:
+          type: integer
+        description: Buscar orgs por score
+      - in: query
+        name: score__gt
+        schema:
+          type: integer
+        description: Buscar orgs por score, maiores que o valor informado
+      - in: query
+        name: score__lt
+        schema:
+          type: integer
+        description: Buscar orgs por score, menores que o valor informado
       tags:
       - api
       security:
