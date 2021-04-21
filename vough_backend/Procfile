@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn vough_backend.wsgi
+web: gunicorn vough_backend.wsgi --timeout 120
